@@ -1,0 +1,58 @@
+1 What genre is the movie CopyCat in?
+Crime, Drama, Horror, Mystery, Thriller
+
+reExp = re.compile('.*CopyCat.*', re.IGNORECASE)
+for genre in movie.find({"Title":reExp},["Genres"]):
+	print genre["Genres"]
+
+2 what genre has the most movies?
+Drama
+
+pipeline = [{"$unwind": "$Genres"},{"$group":{"_id":"$Genres", "count":{"$sum":1}}},{"$sort":SON([("count",-1),("_id",-1)])}]
+for temp in movie.aggregate(pipeline):
+	print temp['_id']
+	break
+
+3 what tags did user 146 use to describe the movie "2001: A Space Odyssey”?
+Arthur C. Clarke
+artificial intelligence
+based on a book
+
+reExp = re.compile('.*2001: A Space Odyssey.*', re.IGNORECASE)
+for mid in movie.find({"Title":reExp },["MovieID"]):
+	MovieID = mid['MovieID']
+for rate in tag.find({"UserID":"146","MovieID":MovieID},["Tag"]):
+	print rate['Tag']
+
+4 What are the top 5 movies with the highest avg rating? 
+Satan's Tango (Sátántangó) (1994)
+Shadows of Forgotten Ancestors (1964)
+Fighting Elegy (Kenka erejii) (1966)
+Sun Alley (Sonnenallee) (1999)
+Blue Light, The (Das Blaue Licht) (1932)
+
+pipeline = [{"$group":{"_id":"$MovieID", "avgRating":{"$avg":"$Rating"}}},
+            {"$sort":SON([("avgRating",-1),("_id",1)])}]
+l1 = []
+i=0
+for temp in rating.aggregate(pipeline):
+	l1.append(str(temp['_id']))
+	i +=1
+	if(i==5):
+		break
+for name in movie.find({"$or":[{"MovieID":l1[0]},{"MovieID":l1[1]},{"MovieID":l1[2]},{"MovieID":l1[3]},{"MovieID":l1[4]}]},["Title"]):
+	print name['Title']
+
+
+5 What is the highest avg rating possible?
+5.0
+
+for temp in rating.aggregate(pipeline):
+	print temp['avgRating']
+	break
+
+6 Write 3 different queries of your choice to demonstrate that your data storage is working.
+
+print movie.find_one()
+print rating.find_one()
+print tag.find_one()

@@ -1,0 +1,11 @@
+> mongo
+> use test
+> db.createCollection("movies")
+> db.createCollection("ratings")
+> db.createCollection("tags")
+
+
+$ mongoimport --db test --collection tags < tags.json
+$ mongoimport --db test --collection ratings < ratings.json
+$ mongoimport --db test --collection movies < movies.json
+
