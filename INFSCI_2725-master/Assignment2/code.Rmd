@@ -1,6 +1,6 @@
 ---
 title: "Homework2"
-author: "Qiang Li”
+author: “Qiang Li”
 date: "February 12, 2016"
 output: pdf_document
 ---
