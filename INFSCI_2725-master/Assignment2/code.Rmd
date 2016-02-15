@@ -1,7 +1,6 @@
 ---
 title: "Homework2"
 author: "Qiang Li”
-Team: “Qiang Li && Qiao Zhao”
 date: "February 12, 2016"
 output: pdf_document
 ---
