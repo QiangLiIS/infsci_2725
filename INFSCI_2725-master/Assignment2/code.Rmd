@@ -1,0 +1,42 @@
+---
+title: "H2"
+author: "Qiao Zhao"
+date: "February 8, 2016"
+output: pdf_document
+---
+load the data and packages
+
+```{r}
+library(ggplot2)
+data = read.table("http://chirayukong.github.io/infsci2725/resources/lecture4/Retention.txt", header = T)
+summary(data)
+```
+
+
+plot histograms for the following three columns: apret, tstsc, and salar.
+```{r}
+theme_set(theme_bw())
+ggplot(data , aes(x = apret)) + geom_histogram(binwidth=1)
+ggplot(data , aes(x = tstsc)) + geom_histogram(binwidth=1) 
+ggplot(data , aes(x = salar)) + geom_histogram(binwidth=1) 
+```
+From the histograms, we can see that apret and tstsc have a normal distribution while salar has a very sparse distribution
+
+
+perform linear regression of apret on tstsc and salar separately.
+```{r}
+
+ggplot(data, aes(x = tstsc, y = apret)) + geom_point() + 
+  geom_smooth(method=lm, # add linear regression line
+              se=FALSE)
+ggplot(data, aes(x = salar, y = apret)) + geom_point() + 
+  geom_smooth(method=lm, # add linear regression line
+              se=FALSE)
+```
+
+perform linear regression of apret on both tstsc and salar.
+```{r}
+fit = lm(apret ~ tstsc+salar, data=data)
+summary(fit)
+```
+
